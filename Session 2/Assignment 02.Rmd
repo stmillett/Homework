@@ -1,0 +1,121 @@
+---
+title: "MSDS 3606 - Assignment 2"
+author: "Steven Millett"
+date: "September 9, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+###Question segment 1
+<!-- This segment has the first set of questions -->
+
+<br/>
+
+## 1. What is a basic workflow for reproducible research? 
+The workflow starts with first collecting raw data from identified sources. 
+<br/>
+From the data source the data is cleaned into a manageable form so as to remove any missing values and to account for any biases in the data. 
+<br/>
+After the data has been cleaned it is time to be run through any necessary analysis on that data. This can include running basic statistical t-tests to other machine learning techniques like linear regression. Depending on the results you may need to manipulate the data even further as you may not be getting the results you are hoping for so you may have to return to the previous step of data clean-up.
+<br/>
+Once you are happy with analysis you can format the data for presentation, this can be through interactive media such as Tableau or a Wordpress site or published in a PDF or print publication. At this step you may need to return to previous steps if you find that the data is not delivering the message you were looking for. 
+
+
+## 2. What are five practical tips for making research reproducible?
+Maintain coherent coding practices - It is good to intelligently name your functions and variables in your environment so you can tell what a segment of code does at a glance. 
+<br/>
+<br/>
+
+Keep good documentation - Use comments to document your code and data sources.
+<br/>
+<br/>
+
+Keep everything in flat human readable files - It is useful to keep your files in generic flat files like CSV and txt.
+<br/>
+<br/>
+
+Create a well-thought out storage structure to store your files - It is important to properly structure your directories for your projects.
+<br/>
+<br/>
+
+Use a repository like Github that helps with versioning - Services like Github can help document changes in your and go back to previous revisions.
+<br/>
+<br/>
+
+
+## 3. Give an example of how you might implement each tip.
+
+Maintain coherent coding practices - For variable and function names it is better to be verbose and descriptive than terse and ambiguous. Don't be afraid to use long phrased when naming objects to reduce confusion when coming back to code after a while.
+<br/>
+<br/>
+
+Keep good documentation - In your source file state the version of plug-in and compiler you are using.
+<br/>
+<br/>
+
+Keep everything in flat human readable files - Only CSVs and txt files or other flat files. If you download from a source that only outputs into rich formats such as XLSX or PDF then extract the information to a flat file
+<br/>
+<br/>
+
+Create a well-thought out storage structure to store your files - Draw out a basic directory structure on paper with the structure of your program as a template separating out data, text, and graphics. From there you can divide your directories into subdirectories depending on need for additional segmentation.
+<br/>
+<br/>
+
+Use a repository like Github that helps with versioning - Publish some of your documentation for a group project and give the site out to others during presentations. This will encourage feedback and follow-up from your audience.
+<br/>
+<br/>
+
+
+## 4. Which one of these do you think will be the most difficult?
+It would be a tie between structuring your files in a coherent structure or documentation. Both of the topics tend to be left as an aside when people start any project as it seems many people leave these as tasks to tackle when they aren't doing actual work. If people were to see these as their own goal then possibly people will pay greater attention to the topics and start documentation or storage scheme from the beginning. 
+
+
+
+<!-- This is section -->
+<br/>
+
+***
+
+###Plotting Question 2:
+<br/>
+<!-- This is an RMarkdown code segment displays a scatter plot of Temperature for each month
+The code has echo on to display the code inline with the knitted page -->
+```{r tempByMonth, echo=TRUE}
+plot(x=airquality$Month, y=airquality$Temp,
+     xlab="Month", ylab="Temperature",
+     main = "Temperature by Month"
+     )
+```
+
+<!-- This is an RMarkdown code segment displays a scatter plot of Temperature vs Ozone
+The code has echo on to display the code inline with the knitted page -->
+```{r tempVsOzone, echo=TRUE}
+plot(x=airquality$Temp, y=airquality$Ozone,
+     xlab="Temperature", ylab="Ozone",
+     main = "Temperature vs Ozone"
+)
+```
+
+
+###Plotting Question 3:
+<br/>
+<!-- This is an RMarkdown code segment displays a scatter plot of Temperature vs Pressure
+The code has echo on to display the code inline with the knitted page -->
+```{r pressure_plot, echo=TRUE}
+plot(x=pressure$pressure, y=pressure$temperature,
+     xlab="Pressure", ylab="Temperature",
+     main="Temperature vs Pressure")
+```
+
+<!-- This is an RMarkdown code segment displays a scatter plot of Pressure vs Temperature
+This is code takes the code from the previous plot and flips the x and y axes
+The code has echo on to display the code inline with the knitted page -->
+```{r pressure_plot2, echo=TRUE}
+plot(x=pressure$temperature, y=pressure$pressure,
+     xlab="Temperature", ylab="Pressure",
+     main="Pressure vs Temperature")
+```

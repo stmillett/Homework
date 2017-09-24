@@ -1,0 +1,124 @@
+---
+title: "MSDS 3606 - Assignment 3"
+author: "Steven Millett"
+date: "September 17, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+###Question segment 1
+
+In this segment in the comments the code for creating and cloning the specified git repository is written.
+<!-- This segment has the first set of questions that are about cloning a git repository to your local machine. -->
+
+<!-- Problem 1-->
+<!-- create local directory-->
+<!-- mkdir gitLocalCache -->
+
+<!-- navigate to the locally created directory-->
+<!-- cd gitLocalCache -->
+
+<!-- clone git repository to local directory-->
+<!-- git clone https://github.com/caesar0301/awesome-public-datasets-->
+<br/>
+
+ 
+
+
+
+<!-- This is section is the data summary portion where you are analyzing data downloaded from the internet about titanic data. -->
+<br/>
+
+
+###Data Summary Question 2:
+<br/>
+<!--This block is to read the titanic dataset  -->
+```{r readCSV, echo=TRUE}
+
+df <- read.csv("C:\\Users\\Steven Millett\\Dropbox\\School\\MSDS 6306 Doing Data Science\\gitLocalCache\\awesome-public-datasets\\Datasets\\titanic.csv")
+
+```
+
+<!-- This code block counts the number of rows with male and female passengers. The last part creates a barplot that shows the frequency of the two sexes. -->
+```{r graphSex, echo=TRUE}
+nrow(df[df$Sex=="male",])
+
+nrow(df[df$Sex=="female",])
+
+barplot(table(df$Sex),main = "Sex of Passengers on the Titanic", ylab = "Frequency", xlab = "Sex")
+
+```
+
+
+<!-- lapply runs the mean function against the age, fare, and survived variables of the dataset. The different columns have missing values so we have to remove all missing values with na.rm-->
+```{r meanVariables, echo=TRUE}
+lapply(df[c("Age","Fare","Survived")],mean,na.rm = TRUE)
+
+```
+
+###Function Building Question 3:
+<br/>
+
+```{r load_data, echo=FALSE}
+dfsleep <- read.csv("c:/Users/Steven Millett/Dropbox/School/MSDS 6306 Doing Data Science/gitLocalCache/awesome-public-datasets/Datasets/sleep_data_01.csv")
+
+```
+
+<!-- This is a bas function that stores information in a couple of variables based off of the median age, minimum and maximum duration of sleep, and the mean and standard deviations of the rosenberg self esteem scale.  -->
+```{r function1, echo=TRUE}
+helperfunction <- function(x)
+{
+  medianAge <- median(x$Age,na.rm = TRUE)
+  minMaxDurationSleep <- c(min(x$Duration,na.rm=TRUE),max(x$Duration,na.rm=TRUE))
+  meanAndStandardDeviationSDED <- c(mean(x$RSES,na.rm = TRUE),sd(x$RSES,na.rm = TRUE)) 
+}
+
+```
+
+<!-- This improves on the previous function by assigning all of the previous variables to a dataframe object.  -->
+```{r function2, echo=TRUE}
+helperfunction <- function(x)
+{
+  medianAge <- median(x$Age,na.rm = TRUE)
+  minMaxDurationSleep <- c(min(x$Duration,na.rm=TRUE),max(x$Duration,na.rm=TRUE))
+  meanAndStandardDeviationSDED <- c(mean(x$RSES,na.rm = TRUE),sd(x$RSES,na.rm = TRUE)) 
+  report <- data.frame(medianAge, (meanAndStandardDeviationSDED[1]/5), (meanAndStandardDeviationSDED[2]/5), (minMaxDurationSleep[2]-minMaxDurationSleep[1]))
+  format(report,digits=2)
+}
+```
+
+
+<!-- This function improves upon the last one by labeling the columns.  -->
+```{r function3, echo=TRUE}
+helperfunction <- function(x)
+{
+  medianAge <- median(x$Age,na.rm = TRUE)
+  minMaxDurationSleep <- c(min(x$Duration,na.rm=TRUE),max(x$Duration,na.rm=TRUE))
+  meanAndStandardDeviationSDED <- c(mean(x$RSES,na.rm = TRUE),sd(x$RSES,na.rm = TRUE)) 
+  report <- data.frame("MedianAge" = medianAge,"SelfEsteem" = (meanAndStandardDeviationSDED[1]/5),"SE_SD" = (meanAndStandardDeviationSDED[2]/5),"DurationRange" = (minMaxDurationSleep[2]-minMaxDurationSleep[1]))
+  report
+}
+```
+
+<!-- This function improves upon the last one by formatting the output to have only 2 digits -->
+```{r function4, echo=TRUE}
+helperfunction <- function(x)
+{
+  medianAge <- median(x$Age,na.rm = TRUE)
+  minMaxDurationSleep <- c(min(x$Duration,na.rm=TRUE),max(x$Duration,na.rm=TRUE))
+  meanAndStandardDeviationSDED <- c(mean(x$RSES,na.rm = TRUE),sd(x$RSES,na.rm = TRUE)) 
+  report <- data.frame("MedianAge" = medianAge,"SelfEsteem" = (meanAndStandardDeviationSDED[1]/5),"SE_SD" = (meanAndStandardDeviationSDED[2]/5),"DurationRange" = (minMaxDurationSleep[2]-minMaxDurationSleep[1]))
+  format(report,digits=2)
+}
+
+```
+
+<!-- This calls the function we created against the dataset dfsleep -->
+```{r outputfunction, echo=TRUE}
+helperfunction(dfsleep)
+
+```
