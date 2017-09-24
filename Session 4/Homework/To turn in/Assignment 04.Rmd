@@ -1,0 +1,87 @@
+---
+title: "MSDS 3606 - Assignment 4"
+author: "Steven Millett"
+date: "September 23, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+ 
+
+
+
+<!-- This is section is the data summary portion where you are analyzing data downloaded from the internet about titanic data. -->
+<br/>
+
+
+###Question Segment 1 - Loading FiveThirtyEight Data:
+<br/>
+<!--This block is to install and load the fivethirtyeightpackge  -->
+```{r loadfivethirtyeight, echo=TRUE}
+#install.packages("fivethirtyeight")
+library(fivethirtyeight)
+
+```
+
+<!--  -->
+```{r loadDataSet, echo=TRUE}
+data(package = "fivethirtyeight")
+df <- fivethirtyeight::college_recent_grads
+
+```
+
+
+<!-- -->
+```{r checkURL, echo=TRUE}
+#vignette("fivethirtyeight", package = "fivethirtyeight")
+
+#The URL is http://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/
+```
+
+
+<br/>
+
+```{r loadNamesAndDimensions, echo=FALSE}
+names(df)
+dim(df)
+
+```
+###Question Segment 3 - Working with FiveThirtyEight Data:
+
+<!--   -->
+```{r loadNamesAndColumnCount, echo=TRUE}
+names(df)
+ncol(df)
+
+```
+
+<!--  -->
+```{r function2, echo=TRUE}
+major_count <- data.frame("Major_Category" = df$major_category,"Frequency"=1)
+major_count <- aggregate(Frequency~Major_Category, data = major_count, sum)
+```
+
+
+<!--   -->
+```{r function3, echo=TRUE}
+par(mar=c(5.1,15,4.1,2.1),mgp=c(3,1,0),las=2)
+barplot(height = major_count$Frequency,main="Number of recent grads per major", names.arg = major_count$Major_Category, xlab = "Frequency", horiz=TRUE, col="blue")
+title(ylab="Major",line=0)
+```
+
+<!-- This function improves upon the last one by formatting the output to have only 2 digits -->
+```{r function4, echo=TRUE}
+write.csv(x=major_count,file="fivethirtyeight.csv",row.names = FALSE)
+
+```
+
+<!-- This calls the function we created against the dataset dfsleep -->
+```{r outputfunction, echo=TRUE}
+
+
+```
