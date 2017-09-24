@@ -9,13 +9,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-
- 
-
-
-
-<!-- This is section is the data summary portion where you are analyzing data downloaded from the internet about titanic data. -->
 <br/>
 
 
@@ -28,7 +21,7 @@ library(fivethirtyeight)
 
 ```
 
-<!--  -->
+<!-- Loads the fivethirtyeight package and loads the 18th data set college_recent_grads into the variable df. -->
 ```{r loadDataSet, echo=TRUE}
 data(package = "fivethirtyeight")
 df <- fivethirtyeight::college_recent_grads
@@ -36,52 +29,52 @@ df <- fivethirtyeight::college_recent_grads
 ```
 
 
-<!-- -->
+<!-- This is to call the vignette of the fivethirtyeight package and reference the article this data appears in.-->
 ```{r checkURL, echo=TRUE}
 #vignette("fivethirtyeight", package = "fivethirtyeight")
 
-#The URL is http://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/
+
 ```
+The URL is http://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/
 
 
 <br/>
-
+<!-- This outputs the names of the variables in df and the size of the data frame   -->
 ```{r loadNamesAndDimensions, echo=FALSE}
 names(df)
 dim(df)
 
 ```
-###Question Segment 3 - Working with FiveThirtyEight Data:
+###Question Segment 2 - Working with FiveThirtyEight Data:
 
-<!--   -->
+<!-- This outputs the names of the variables in df and the number of columns   -->
 ```{r loadNamesAndColumnCount, echo=TRUE}
 names(df)
 ncol(df)
 
 ```
 
-<!--  -->
-```{r function2, echo=TRUE}
+<!-- This populates the major count data frame with the unique values in df$major_category and counts the number of times that major appears in the vector. -->
+```{r populateDataFrame, echo=TRUE}
 major_count <- data.frame("Major_Category" = df$major_category,"Frequency"=1)
 major_count <- aggregate(Frequency~Major_Category, data = major_count, sum)
 ```
 
 
-<!--   -->
-```{r function3, echo=TRUE}
-par(mar=c(5.1,15,4.1,2.1),mgp=c(3,1,0),las=2)
-barplot(height = major_count$Frequency,main="Number of recent grads per major", names.arg = major_count$Major_Category, xlab = "Frequency", horiz=TRUE, col="blue")
+<!-- This is to create a barplot from the data frame major_count. The function par is to format the barplot so it appears properly. The title function is used to format the Y label to move it closer to the barplot.  -->
+```{r barPlot, echo=TRUE}
+par(mar=c(5.5,15,4.5,2.5),mgp=c(3,1,0),las=2)
+barplot(height = major_count$Frequency,main="Major by Category", names.arg = major_count$Major_Category, xlab = "Frequency", horiz=TRUE, xlim=c(0,30), col="blue")
 title(ylab="Major",line=0)
 ```
 
-<!-- This function improves upon the last one by formatting the output to have only 2 digits -->
-```{r function4, echo=TRUE}
+<!-- This is to write major_count data frame to a CSV -->
+```{r writeOutputToCSV, echo=TRUE}
 write.csv(x=major_count,file="fivethirtyeight.csv",row.names = FALSE)
 
 ```
+###Question Segment 3 - Github repository:
 
-<!-- This calls the function we created against the dataset dfsleep -->
-```{r outputfunction, echo=TRUE}
+You can find all details on my github here:
+https://github.com/stmillett/Homework 
 
-
-```
