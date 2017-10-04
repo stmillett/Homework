@@ -1,0 +1,53 @@
+---
+title: "MSDS 3606 - Assignment 5 Codebook"
+author: "Steven Millett"
+date: "September 30, 2017"
+output: html_document
+---
+
+### Codebook for Data of frequency of birthnames
+
+This project was to take multiple text files and merge the data together by their Firstname to determine what were the 10 most popular girls names for 2015 and 2016.
+</br> 
+This codebook will cover some of the variables and methods used to combine the two text files yob2015.txt and yob2016.txt to determine what the 10 most popular girls names were for those years. The data was supplied by Prof. Tibbett to perform this analysis.
+
+
+##Variables used in analysis
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+df - Initial variable the data from yob2016.txt is loaded into. </br> 
+y2016 - Variable df is saved as, after removing duplicate values. </br> 
+y2015 - Variable yob2015.txt is loaded into.</br> 
+final - This variable is a combination of the y2015 and 2016 variables merged by the firstname column.</br> 
+girl - This variable is all of the rows from the final variable where gender was F. </br> 
+
+```{r loadyob2016, echo=FALSE,background=TRUE}
+df <- read.csv2("yob2016.txt",header=FALSE)
+colnames(df) <- c("FirstName","Gender","FreqOfName")
+y2016<-df[!df$FirstName=="Fionayyy",]
+y2015 <- read.csv("yob2015.txt",header=FALSE)
+colnames(y2015) <- c("FirstName","Gender","FreqOfName")
+```
+
+## Merging data 
+This merges the two tables on firstname column
+```{r mergedata, echo=TRUE}
+final <- merge(y2015, y2016, by = "FirstName",suffixes = c(".2015",".2016"))
+```
+
+## Add frequency of names  
+This creates a column with the totals of the frequency of a name for a given year
+```{r createtotalcolumn, echo=TRUE}
+final <- cbind (final, "Total" = final$FreqOfName.2015+final$FreqOfName.2016)
+```
+
+
+##Select only female names
+This eliminates all male names
+```{r sortOutGirls, echo=TRUE}
+girl <- final[final$Gender.2015=="F" & final$Gender.2016=="F",]
+head(girl,10)
+```

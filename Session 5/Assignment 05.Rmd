@@ -1,0 +1,87 @@
+---
+title: "MSDS 3606 - Assignment 5"
+author: "Steven Millett"
+date: "September 30, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br/>
+
+
+###Question Segment 1 - Data Munging:
+<br/>
+<!-- This is to load the data into the variable df and assign names to the columns -->
+```{r loadyob2016, echo=TRUE}
+df <- read.csv2("yob2016.txt",header=FALSE)
+colnames(df) <- c("FirstName","Gender","FreqOfName")
+```
+
+<!-- This prints the summary of the yob2016 dataset and the dimensions-->
+```{r datasummary, echo=TRUE}
+summary(df)
+dim(df)
+
+```
+
+
+<!-- This searches for a firstname that begins with yyy -->
+```{r grep, echo=TRUE}
+df[grep("yyy",df$FirstName),]
+
+
+```
+
+
+<br/>
+<!--  This loads the data without the duplicate name into another variable  -->
+```{r removeduplicatename, echo=FALSE}
+y2016<-df[!df$FirstName=="Fionayyy",]
+
+```
+###Question Segment 2 - Data Merging:
+
+<!-- This loads the 2015 data and assigns names to the columns   -->
+```{r load2015data, echo=TRUE}
+y2015 <- read.csv("yob2015.txt",header=FALSE)
+colnames(y2015) <- c("FirstName","Gender","FreqOfName")
+
+```
+
+<!-- This gets the last 10 elements from the 2015 data -->
+```{r gettailofdata, echo=TRUE}
+tail(y2015,10)
+```
+
+
+<!-- This merges the two tables on firstname column  -->
+```{r mergedata, echo=TRUE}
+final <- merge(y2015, y2016, by = "FirstName",suffixes = c(".2015",".2016"))
+```
+
+###Question Segment 3 - Data Summary:
+<!-- This creates a column with the totals of the frequency of a name for a given year -->
+```{r createtotalcolumn, echo=TRUE}
+final <- cbind (final, "Total" = final$FreqOfName.2015+final$FreqOfName.2016)
+```
+
+<!-- This is to get the top 10 names by total frequency -->
+```{r sortByTotal, echo=TRUE}
+final <- final[order(-final$Total),]
+head(final,10)
+```
+
+<!-- This eliminates all male names -->
+```{r sortOutGirls, echo=TRUE}
+girl <- final[final$Gender.2015=="F" & final$Gender.2016=="F",]
+head(girl,10)
+```
+
+
+<!-- This saves the top 10 name and total frequency columns to a csv -->
+```{r writeOutputToCSV, echo=TRUE}
+write.csv(girl[1:10,c(1,6)],file="./itsagirl.csv",row.names = FALSE)
+```
