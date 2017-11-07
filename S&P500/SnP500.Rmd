@@ -1,0 +1,89 @@
+---
+title: "MSDS 3606 - S&P 500 Analysis"
+author: "Steven Millett"
+date: "November 6, 2017"
+output: html_document
+---
+
+<!-- Load libraries--> 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Question 1 - Plotting of S&P 500 data
+  
+#### This is to load S&P 500 data. 
+
+<!-- This is to load S&P 500 data. -->
+```{r , echo=TRUE}
+library(tseries)
+
+## S&P 500 (^GSPC)
+###    SNP - SNP Real Time Price. Currency in USD
+
+# TODO: Download the data of SP500 '^gspc'.
+SNPdata <- get.hist.quote('^gspc',quote="Close")
+```
+
+</br>
+
+#### This calculates the log returns of the S&P500 and the volatitlity.
+
+<!-- This calculates the log returns of the S&P500 and the volatitlity.-->
+```{r , echo=TRUE}
+# TODO: Calculate the log returns, which is the subtraction of log(lag(SNPdata)) and log(SNPdata)
+SNPret <- log(lag(SNPdata)) - log(SNPdata)
+
+# TODO: Calculate volatility measure that is to multiply sd(SNPret),sqrt(250), 100
+SNPvol <- sd(SNPret)*sqrt(250)*100
+```
+
+</br>
+
+#### This is a function to calculate the volatility for the decay factor 10, 30, and 100.
+
+<!-- This is a function to calculate the volatility for the decay factor 10, 30, and 100-->
+```{r , echo=TRUE, fig.width=10, fig.height=10}
+## Define getVol function for volatility
+getVol <- function(d, logrets) {
+	var = 0
+	lam = 0
+	varlist <- c()
+
+	for (r in logrets) {
+		lam = lam*(1 - 1/d) + 1
+	  var = (1 - 1/lam)*var + (1/lam)*r^2
+		varlist <- c(varlist, var)
+	}
+
+	sqrt(varlist)
+}
+
+# Calculate volatility over entire length of series for various three different decay factors: 10 30. 100
+
+# TODO: call getVol function with the parameters: 10,SNPret
+volest <- getVol(10,SNPret)
+
+# TODO: call getVol function with the parameters: 30,SNPret
+volest2 <- getVol(30,SNPret)
+
+# TODO: call getVol function with the parameters: 100,SNPret
+volest3 <- getVol(100,SNPret)
+
+```
+
+</br>
+
+
+#### We are plotting the volatility information.
+
+<!-- We are plotting the volatility information -->
+```{r , echo=TRUE, fig.width=10, fig.height=10}
+plot(volest,type="l", main="S&P500 volatility data")
+
+# TODO: Add connected line segments for volest2 with the parameters: type="l",col="red"
+lines(volest2, type="l",col="red")
+
+# TODO: Add connected line segments for volest3 with the parameters: type="l",col="blue"
+lines(volest3, type="l",col="blue")
+```
